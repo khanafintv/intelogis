@@ -1,7 +1,7 @@
 import { Modal } from 'antd';
-// import { useState } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
-import { MODAL_OFF } from '../store/reducers';
+import { MODAL_OFF, VIS } from '../store/reducers';
 
 export const MyModal = ({ children }) => {
   const dispatch = useDispatch();
@@ -16,11 +16,13 @@ export const MyModal = ({ children }) => {
   const handleOk = () => {
     //setIsModalVisible(false);
     dispatch({ type: MODAL_OFF });
+    dispatch({ type: VIS });
   };
 
   const handleCancel = () => {
     //setIsModalVisible(false);
     dispatch({ type: MODAL_OFF });
+    dispatch({ type: VIS });
   };
 
   return (

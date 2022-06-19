@@ -1,14 +1,11 @@
 import { MapContainer, TileLayer } from 'react-leaflet';
-
 import { useSelector } from 'react-redux';
-
 import RoutineMachine from '../plugins/routing.js';
 
 export const Map = () => {
   const ordersStore = useSelector((state) => state.reducer1.orders);
-
-  const modal = useSelector((state) => state.reducer1.modal);
   const orderId = useSelector((state) => state.reducer1.orderId);
+  const vis = useSelector((state) => state.reducer1.vis);
 
   return (
     <>
@@ -25,8 +22,12 @@ export const Map = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {!modal && (
-          <RoutineMachine ordersStore={ordersStore} orderId={orderId} />
+        {vis && (
+          <RoutineMachine
+            ordersStore={ordersStore}
+            orderId={orderId}
+            vis={vis}
+          />
         )}
       </MapContainer>
     </>

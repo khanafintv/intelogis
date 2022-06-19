@@ -1,10 +1,9 @@
 import { Table } from 'antd';
 import { Button } from 'antd';
+import { useEffect } from 'react';
 import { useState } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
-
-import { asyncActionModal, ORDER_ID } from '../store/reducers';
+import { asyncActionModal, ORDER_ID, VIS, VIS_FALSE } from '../store/reducers';
 
 export const MyTable = () => {
   const dispatch = useDispatch();
@@ -17,7 +16,15 @@ export const MyTable = () => {
     unload_address: i.unloading.address,
   }));
 
-  const [id, setId] = useState();
+  const [rowId, setRowId] = useState();
+
+  useEffect(() => {
+    dispatch({ type: VIS_FALSE });
+    dispatch({ type: ORDER_ID, payload: rowId });
+    setTimeout(() => {
+      dispatch({ type: VIS });
+    }, 100);
+  }, [rowId]);
 
   const columns = [
     {
@@ -42,14 +49,20 @@ export const MyTable = () => {
       key: 'key',
       render: (text) => (
         <Button
-          onClick={() => {
-            dispatch(asyncActionModal());
+          onClick={(e) => {
+            dispatch({ type: VIS_FALSE });
+
+            if (e.currentTarget.id == rowId) {
+              dispatch(asyncActionModal());
+            }
+
             dispatch({ type: ORDER_ID, payload: text });
           }}
           type="primary"
           className="btn"
+          id={text}
         >
-          Редактирование
+          Редактировать
         </Button>
       ),
     },
@@ -64,12 +77,12 @@ export const MyTable = () => {
         onRow={(record, rowIndex) => {
           return {
             onClick: () => {
-              setId(record.key);
+              setRowId(record.key);
             },
           };
         }}
         rowClassName={(record, index) =>
-          id === record.key ? 'table-row-active' : 'tab-row'
+          rowId === record.key ? 'table-row-active' : 'tab-row'
         }
       />
       ;

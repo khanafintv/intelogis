@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { MyTable } from '../components/MyTable';
 
 export const MainLayout = ({ children }) => {
-  const [state, setState] = useState({ width: '300px', height: '100vh' });
+  const [state, setState] = useState({ width: '500px', height: '100vh' });
 
   return (
     <div className="main-layout">

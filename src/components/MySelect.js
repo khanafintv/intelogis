@@ -29,6 +29,7 @@ export const MySelect = () => {
 
   const handleChangeUnload = (value) => {
     let findPoint = pointsStore.find((i) => i.address === value);
+
     let unloading = { ...findPoint };
 
     res.forEach((i, idx) => {
@@ -37,14 +38,13 @@ export const MySelect = () => {
         res.splice(idx, 1, obj);
       }
     });
-
     dispatch({ type: FETCH_ORDERS, payload: res });
   };
 
   return (
     <>
       <Select
-        defaultValue="Выберите адрес погрузки"
+        defaultValue={'Введите адрес погрузки'}
         style={{
           width: 400,
         }}
