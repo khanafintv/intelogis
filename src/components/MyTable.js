@@ -23,22 +23,7 @@ export const MyTable = () => {
     {
       title: 'Заявка',
       dataIndex: 'name',
-      key: 'key',
-      render: (text, i) => (
-        <div
-          onClick={(e) => {
-            setId(e.target.id);
-          }}
-          style={{
-            color: id == i.key ? 'red' : '',
-            cursor: 'pointer',
-          }}
-          id={i.key}
-          className="td-name"
-        >
-          {text}
-        </div>
-      ),
+      key: 'name',
     },
     {
       title: 'Адрес погрузки',
@@ -62,6 +47,7 @@ export const MyTable = () => {
             dispatch({ type: ORDER_ID, payload: text });
           }}
           type="primary"
+          className="btn"
         >
           Редактирование
         </Button>
@@ -71,7 +57,22 @@ export const MyTable = () => {
 
   return (
     <>
-      <Table columns={columns} dataSource={data} />;
+      <Table
+        className="tab"
+        columns={columns}
+        dataSource={data}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: () => {
+              setId(record.key);
+            },
+          };
+        }}
+        rowClassName={(record, index) =>
+          id === record.key ? 'table-row-active' : 'tab-row'
+        }
+      />
+      ;
     </>
   );
 };

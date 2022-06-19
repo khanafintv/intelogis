@@ -4,9 +4,9 @@ import { createControlComponent } from '@react-leaflet/core';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
-const createRoutineMachineLayer = ({ ordersStore, orderId }) => {
+const createRoutineMachineLayer = ({ ordersStore, orderId, dis }) => {
   const instance = L.Routing.control({
-    waypoints: [null],
+    //waypoints: [null],
     // createMarker() {
     //   return null;
     // },
@@ -18,37 +18,38 @@ const createRoutineMachineLayer = ({ ordersStore, orderId }) => {
     showAlternatives: false,
   });
 
-  if (orderId) {
-    let findItem = ordersStore.find((i) => i.id == orderId);
+  let findItem = ordersStore.find((i) => i.id === orderId);
+  instance.setWaypoints([
+    L.latLng(
+      findItem?.loading.coordinates.lon,
+      findItem?.loading.coordinates.lat
+    ),
+    L.latLng(
+      findItem?.unloading.coordinates.lon,
+      findItem?.unloading.coordinates.lat
+    ),
+  ]);
 
-    instance.setWaypoints([
-      L.latLng(
-        findItem.loading.coordinates.lon,
-        findItem.loading.coordinates.lat
-      ),
-      L.latLng(
-        findItem.unloading.coordinates.lon,
-        findItem.unloading.coordinates.lat
-      ),
-    ]);
+  for (let i of ordersStore) {
+    document
+      .querySelector(`[data-row-key="${i.id}"]`)
+      .addEventListener('click', (e) => {
+        let findItem = ordersStore.find(
+          (item) => item.id === e.currentTarget.dataset.rowKey
+        );
+
+        instance.setWaypoints([
+          L.latLng(
+            findItem?.loading.coordinates.lon,
+            findItem?.loading.coordinates.lat
+          ),
+          L.latLng(
+            findItem?.unloading.coordinates.lon,
+            findItem?.unloading.coordinates.lat
+          ),
+        ]);
+      });
   }
-
-  L.DomEvent.on(document.body, 'click', function (e) {
-    if (e.target.className !== 'td-name') return;
-
-    let findItem = ordersStore.find((i) => i.id == e.target.id);
-
-    instance.setWaypoints([
-      L.latLng(
-        findItem.loading.coordinates.lon,
-        findItem.loading.coordinates.lat
-      ),
-      L.latLng(
-        findItem.unloading.coordinates.lon,
-        findItem.unloading.coordinates.lat
-      ),
-    ]);
-  });
 
   return instance;
 };

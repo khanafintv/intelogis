@@ -21,7 +21,7 @@ export default function App() {
     if (i === pointsStore.length - 1) n = i - 1;
     if (i < pointsStore.length - 1) n = i + 1;
     result.push({
-      id: i + 1,
+      id: String(i + 1),
       name: `Заявка ${i + 1}`,
       loading: pointsStore[i],
       unloading: pointsStore[n],

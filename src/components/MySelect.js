@@ -18,7 +18,7 @@ export const MySelect = () => {
     let loading = { ...findPoint };
 
     res.forEach((i, idx) => {
-      if (i.id == orderId) {
+      if (i.id === orderId) {
         let obj = { ...i, loading: loading };
         res.splice(idx, 1, obj);
       }
@@ -32,7 +32,7 @@ export const MySelect = () => {
     let unloading = { ...findPoint };
 
     res.forEach((i, idx) => {
-      if (i.id == orderId) {
+      if (i.id === orderId) {
         let obj = { ...i, unloading: unloading };
         res.splice(idx, 1, obj);
       }

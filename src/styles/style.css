@@ -19,3 +19,15 @@
   overflow-y: hidden;
   min-width: 200px;
 }
+
+.tab-row {
+  cursor: pointer;
+}
+
+.table-row-active {
+  background-color: rgb(255, 112, 3);
+}
+
+.ant-table-cell-row-hover {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
